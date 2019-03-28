@@ -105,66 +105,7 @@ public class LogginCardTerminal extends CardTerminal{
     
         
     }
-    public void getPass () throws KeyStoreException, FileNotFoundException{
-        
-// loading the key from file:
-        KeyStore keyStore = KeyStore.getInstance("JCEKS");
-        String storeFileName = null;
-        FileInputStream inputStream = new FileInputStream(storeFileName);
-        keyStore.load(inputStream, storePassword.toCharArray());
-        KeyStore.ProtectionParameter protectParameter = new KeyStore.PasswordProtection(certPass.toCharArray()); }
-
-    public void smartcard() throws KeyStoreException, NoSuchAlgorithmException{
-        
-        // loading the key from token:
-        KeyStore keyStore = KeyStore.getInstance("PKCS11");
-        KeyStore.ProtectionParameter protectParameter = null;
-        keyStore.load(null, storePassword.toCharArray());
-
-        // the rest does not depend on the type of the store: 
-        String signatureAlgorithmName = "SHA1withRSA";
-        KeyStore.Entry entry = keyStore.getEntry(alias, protectParameter);// cargando la clave desde el token: 
-
-       
-        boolean isPrivateKeyEntry = keyStore.entryInstanceOf(alias, KeyStore.PrivateKeyEntry.class);
-        boolean jose = true;
-        if (isPrivateKeyEntry)
-        {
-          Signature signatureAlgorithm = Signature.getInstance(signatureAlgorithmName);
-/*
-          // signing
-          KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)entry;
-          PrivateKey privateKey = privateKeyEntry.getPrivateKey();  
-          signatureAlgorithm.initSign (privateKey);
-          signatureAlgorithm.update (message);
-          byte[] signature = signatureAlgorithm.sign();
-
-          // verification
-          Certificate[] chain = privateKeyEntry.getCertificateChain();
-          X509Certificate certificate = (X509Certificate) chain[chain.length-1];
-          PublicKey publicKey = certificate.getPublicKey();
-          signatureAlgorithm.initVerify(publicKey);
-          signatureAlgorithm.update (data);
-          boolean verified = signatureAlgorithm.verify(signature);*/
-}
-    }
-    public void certificate () throws KeyStoreException{
-        
-        try{
-            KeyStore keyStore = KeyStore.getInstance("JCEKS");
-            keyStore.load(null, null);
-
-            KeyGenerator keyGen = KeyGenerator.getInstance("DES");
-            keyGen.init(56);;
-            Key key = keyGen.generateKey();
-
-            keyStore.setKeyEntry("secret", key, "password".toCharArray(), null);
-
-            keyStore.store(new FileOutputStream("output.jceks"), "password".toCharArray());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+  
 }
     
 
