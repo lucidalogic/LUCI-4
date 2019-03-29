@@ -20,11 +20,12 @@ public class Lectura {
              try {
                 // LetturaSmartCard lectura = new LetturaSmartCard();
                 LogginCardTerminal prueba = new LogginCardTerminal();
-                //terminal.System.out.println("Private key: " + )(
-               // LogginCardTerminal.
-                System.out.println("Private key: "  );  
+                
                  if (prueba.isCardPresent()){
                      System.out.println("nombre: "+ prueba.getName());
+                     Password pass = new Password();
+                     pass.getPass();
+                     
                      break;
                  }
                  else{
