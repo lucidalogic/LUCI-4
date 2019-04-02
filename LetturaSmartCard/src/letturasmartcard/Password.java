@@ -30,7 +30,7 @@ public class Password {
         try{
             
         
-        String configName = "name=SunPKCS11-Open\r\nlibrary=C:\\Windows\\System32\\asepkcs.dll";
+        String configName = "name=SunPKCS11-Open\\r\\nlibrary=C:\\Windows\\System32\\asepkcs.dll";
          
         KeyStore keyStore =null;
         
