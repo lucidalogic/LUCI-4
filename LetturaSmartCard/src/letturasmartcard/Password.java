@@ -29,7 +29,7 @@ public class Password {
     public void getPass () throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException{
         try{
             
-        
+     
         String configName = "name=SunPKCS11-Open\\r\\nlibrary=C:\\Windows\\System32\\asepkcs.dll";
          
         KeyStore keyStore =null;
@@ -48,13 +48,13 @@ public class Password {
             System.out.println("Entre a la tarjeta");
         }catch (KeyStoreException ksex){
             //Add log
-            System.err.println("An KeyStoreException was caught :"+ksex.getMessage());
+            System.out.println("An KeyStoreException was caught :"+ksex.getMessage());
         }catch (IOException ioex){
-            System.err.println("An IOException was caught :"+ioex.getMessage());
+            System.out.println("An IOException was caught :"+ioex.getMessage());
         }catch (NoSuchAlgorithmException nsaex){
-            System.err.println("An NoSuchAlgorithmException was caught :"+nsaex.getMessage());
+            System.out.println("An NoSuchAlgorithmException was caught :"+nsaex.getMessage());
         }catch (CertificateException cex){
-            System.err.println("An CertificateException was caught :"+cex.getMessage());
+            System.out.println("An CertificateException was caught :"+cex.getMessage());
         }
         
     }
