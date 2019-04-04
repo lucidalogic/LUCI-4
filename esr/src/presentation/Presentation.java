@@ -1,0 +1,319 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package presentation;
+
+import Bussiness.LogginCardTerminal;
+import Bussiness.Password;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.File;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.effect.DropShadow;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.filechooser.FileSystemView;
+import jdk.nashorn.internal.parser.TokenType;
+
+/**
+ *
+ * @author Lucida
+ */
+public class Presentation extends javax.swing.JFrame {
+    
+    public int tries=1;
+    public int time=1000;
+    /**
+     * Creates new form Propuesta3
+     */
+    public Presentation() {
+        initComponents();
+        //Set al components, change abckground and configure the text of buttons
+        getContentPane().setBackground(Color.white);
+        ImageIcon img = new ImageIcon("C:\\Users\\Lucida\\Desktop\\LUCI-4\\esr\\src\\images\\icon.png");
+        this.setIconImage(img.getImage());
+        acceptButton.setText("Aceptar");
+        acceptButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        acceptButton.setVerticalTextPosition(SwingConstants.TOP);
+        cancelButton.setText("Cancelar");
+        cancelButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        cancelButton.setVerticalTextPosition(SwingConstants.TOP);
+        //set border to another color and back to origin
+        Border border = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GREEN);
+        acceptButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            acceptButton.setBorder(border);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Border border = BorderFactory.createLineBorder(Color.WHITE,1);
+                acceptButton.setBorder(border);
+            }
+                });
+        Border border1 = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.RED);
+        cancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cancelButton.setBorder(border1);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Border border = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE);
+                cancelButton.setBorder(border);
+            }
+        });
+        //text align center
+        errorLabel.setVerticalAlignment(SwingConstants.CENTER);
+        errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        triesLabel.setVerticalAlignment(SwingConstants.CENTER);
+        triesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        //window location center
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = this.getSize().width;
+        int h = this.getSize().height;
+        int x = (dim.width-w)/2;
+        int y = (dim.height-h)/2;
+
+        // Move the window
+        this.setLocation(x, y);
+        while (time <10000){
+             
+             try {
+                // LetturaSmartCard lectura = new LetturaSmartCard();
+                LogginCardTerminal prueba = new LogginCardTerminal();
+                
+                 if (prueba.isCardPresent()){
+                     System.out.println("nombre: "+ prueba.getName());
+                     
+                     System.out.println("");
+                     break;
+                 }
+                 else{
+                 //lectura.main(args);
+                     
+                 LogginCardTerminal sistema = new LogginCardTerminal();
+                 System.out.println("S.O: "+sistema.getOperativeSystem());
+                 System.out.println("Esperando...");   
+                 Thread.sleep(1000);
+                 }
+                 
+             } catch (Exception e) {
+                 LogginCardTerminal sistema = new LogginCardTerminal();
+                 System.out.println("S.O: "+sistema.getOperativeSystem());
+                 System.out.println("Esperando...");
+                 try {
+                     Thread.sleep(1000);
+                     // break;
+                 } catch (InterruptedException ex) {
+                     Logger.getLogger(Presentation.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+             time+=1000;
+             timeLabel.setText(time+"");
+         }
+         
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        logoLabel = new javax.swing.JLabel();
+        cancelButton = new javax.swing.JButton();
+        acceptButton = new javax.swing.JButton();
+        passwordField = new javax.swing.JPasswordField();
+        messageLabel = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
+        chargingLabel = new javax.swing.JLabel();
+        triesLabel = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
+        setMinimumSize(new java.awt.Dimension(599, 413));
+        setResizable(false);
+        getContentPane().setLayout(null);
+
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Propuesta 3.png"))); // NOI18N
+        getContentPane().add(logoLabel);
+        logoLabel.setBounds(39, 0, 509, 141);
+
+        cancelButton.setBackground(new java.awt.Color(255, 255, 255));
+        cancelButton.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
+        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/cancel3.png"))); // NOI18N
+        cancelButton.setToolTipText("Cancelar");
+        cancelButton.setBorder(null);
+        cancelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cancelButton);
+        cancelButton.setBounds(170, 280, 90, 51);
+
+        acceptButton.setBackground(new java.awt.Color(255, 255, 255));
+        acceptButton.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
+        acceptButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/check2.png"))); // NOI18N
+        acceptButton.setToolTipText("Aceptar");
+        acceptButton.setBorder(null);
+        acceptButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        acceptButton.setSelected(true);
+        acceptButton.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                acceptButtonFocusGained(evt);
+            }
+        });
+        acceptButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                acceptButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                acceptButtonMouseExited(evt);
+            }
+        });
+        acceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                acceptButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(acceptButton);
+        acceptButton.setBounds(270, 280, 94, 51);
+
+        passwordField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        passwordField.setToolTipText("");
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
+            }
+        });
+        getContentPane().add(passwordField);
+        passwordField.setBounds(190, 210, 140, 35);
+
+        messageLabel.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        messageLabel.setText("Para continuar, digite su número de pin");
+        getContentPane().add(messageLabel);
+        messageLabel.setBounds(50, 150, 490, 56);
+
+        errorLabel.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(204, 0, 0));
+        getContentPane().add(errorLabel);
+        errorLabel.setBounds(130, 250, 270, 20);
+
+        chargingLabel.setText("jLabel4");
+        getContentPane().add(chargingLabel);
+        chargingLabel.setBounds(260, 210, 170, 40);
+
+        triesLabel.setForeground(new java.awt.Color(153, 153, 153));
+        getContentPane().add(triesLabel);
+        triesLabel.setBounds(440, 320, 130, 20);
+        getContentPane().add(timeLabel);
+        timeLabel.setBounds(550, 10, 41, 16);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
+        if (passwordField.getText().equals("")|| !(passwordField.getText().length()==4)){
+            errorLabel.setText("Digite los 4 dígitos de su pin");
+            Border border = BorderFactory.createLineBorder(Color.RED,1);
+            passwordField.setBorder(border);
+            System.out.println((passwordField.getText().length()));
+            //jLabel5.setText("Intentos "+tries+"/3");
+           
+             File[] roots = File.listRoots();
+           //Vector lista = new Vector(roots.length);
+            chargingLabel.setIcon(null);
+            
+        }
+        else{
+            errorLabel.setText(null);
+            Border border = BorderFactory.createLineBorder(Color.BLACK,1);
+            passwordField.setBorder(border);
+            ImageIcon iconLogo = new ImageIcon("C:\\Users\\Lucida\\Documents\\NetBeansProjects\\pruebaLogin\\src\\Images\\UbTh.gif");
+            chargingLabel.setIcon(iconLogo);
+            try{
+               Password pass = new Password();
+               pass.pin =passwordField.getText().toCharArray();
+               pass.getPass();
+                
+            }catch(Exception ex){
+               triesLabel.setText("Intentos "+tries+"/3"); 
+               errorLabel.setText("Digite los 4 dígitos de su pin");
+               border = BorderFactory.createLineBorder(Color.RED,1);
+               passwordField.setBorder(border);
+               chargingLabel.setIcon(null);
+               tries++;
+            }
+            
+            
+            } 
+            
+           
+          
+            
+        
+    }//GEN-LAST:event_acceptButtonActionPerformed
+
+    private void acceptButtonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_acceptButtonFocusGained
+        
+    }//GEN-LAST:event_acceptButtonFocusGained
+
+    private void acceptButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptButtonMouseEntered
+             // TODO add your handling code here:
+        
+    }//GEN-LAST:event_acceptButtonMouseEntered
+
+    private void acceptButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptButtonMouseExited
+        // TODO add your handling code here:
+    
+    }//GEN-LAST:event_acceptButtonMouseExited
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+        this .dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+   /* public static void main(String args[]) {
+   
+
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Presentation().setVisible(true);
+            }
+        });
+    }*/
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton acceptButton;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel chargingLabel;
+    private javax.swing.JLabel errorLabel;
+    private javax.swing.JLabel logoLabel;
+    private javax.swing.JLabel messageLabel;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JLabel timeLabel;
+    private javax.swing.JLabel triesLabel;
+    // End of variables declaration//GEN-END:variables
+}
