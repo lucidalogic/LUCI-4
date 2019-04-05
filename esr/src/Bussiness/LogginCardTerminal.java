@@ -58,7 +58,7 @@ public class LogginCardTerminal extends CardTerminal{
     }
 
     @Override
-    public boolean isCardPresent() throws CardException {
+    public boolean isCardPresent()  throws CardException {
         TerminalFactory factory = TerminalFactory.getDefault();
         //System.out.println("entre");
         List<CardTerminal> terminals = factory.terminals().list();

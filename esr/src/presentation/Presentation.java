@@ -10,6 +10,7 @@ import Bussiness.Password;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -23,7 +24,11 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileSystemView;
 import jdk.nashorn.internal.parser.TokenType;
-
+import java.util.Observable;
+import java.lang.Runnable;
+import javax.swing.AbstractAction;
+import javax.swing.JDialog;
+import javax.swing.Timer;
 /**
  *
  * @author Lucida
@@ -32,6 +37,9 @@ public class Presentation extends javax.swing.JFrame {
     
     public int tries=1;
     public int time=1000;
+     private Runnable Runnable;
+    Thread card = new Thread(Runnable);
+   boolean flag= true;
     /**
      * Creates new form Propuesta3
      */
@@ -84,44 +92,11 @@ public class Presentation extends javax.swing.JFrame {
 
         // Move the window
         this.setLocation(x, y);
-        while (time <10000){
-             
-             try {
-                // LetturaSmartCard lectura = new LetturaSmartCard();
-                LogginCardTerminal prueba = new LogginCardTerminal();
-                
-                 if (prueba.isCardPresent()){
-                     System.out.println("nombre: "+ prueba.getName());
-                     
-                     System.out.println("");
-                     break;
-                 }
-                 else{
-                 //lectura.main(args);
-                     
-                 LogginCardTerminal sistema = new LogginCardTerminal();
-                 System.out.println("S.O: "+sistema.getOperativeSystem());
-                 System.out.println("Esperando...");   
-                 Thread.sleep(1000);
-                 }
-                 
-             } catch (Exception e) {
-                 LogginCardTerminal sistema = new LogginCardTerminal();
-                 System.out.println("S.O: "+sistema.getOperativeSystem());
-                 System.out.println("Esperando...");
-                 try {
-                     Thread.sleep(1000);
-                     // break;
-                 } catch (InterruptedException ex) {
-                     Logger.getLogger(Presentation.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-             }
-             time+=1000;
-             timeLabel.setText(time+"");
-         }
-         
+        // ------------------------------------------------------------------------------
+        
+                        
     }
-
+      
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,6 +120,11 @@ public class Presentation extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setMinimumSize(new java.awt.Dimension(599, 413));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Propuesta 3.png"))); // NOI18N
@@ -261,13 +241,63 @@ public class Presentation extends javax.swing.JFrame {
             
             
             } 
-            
-           
-          
-            
-        
+ 
     }//GEN-LAST:event_acceptButtonActionPerformed
+    
+    private void cardController (){
+         final JOptionPane optionPane = new JOptionPane("Por favor, inserte su firma digital", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Tarjeta Requerida");
+        dialog.setModal(true);
+        dialog.setContentPane(optionPane);
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.pack();
+        while (time <10000){
+            
+             try {
+                // LetturaSmartCard lectura = new LetturaSmartCard();
+                LogginCardTerminal prueba = new LogginCardTerminal();
+                
+                 if (prueba.isCardPresent()){
+                     System.out.println("nombre: "+ prueba.getName());
+                     
+                     System.out.println("");
+                     dialog.dispose();
+                     break;
+                 }
+                 else{
+                 //lectura.main(args);
+                     
+                 LogginCardTerminal sistema = new LogginCardTerminal();
+                 System.out.println("S.O: "+sistema.getOperativeSystem());
+                 System.out.println("Esperando...");   
+                 Thread.sleep(1000);
+                 }
+                 
+             } catch (Exception e) {
+                 LogginCardTerminal sistema = new LogginCardTerminal();
+                 System.out.println("S.O: "+sistema.getOperativeSystem());
+                 System.out.println("Esperando...");
+                // try {
+                     //Thread.sleep(2000);
+                     // JOptionPane.NO_OPTION()
+                     // break;
+                
 
+                    
+                        if (flag==true){
+                            dialog.setVisible(true);
+                            
+                        }else{
+                            dialog.dispose();
+                        }
+
+             time+=1000;
+             timeLabel.setText(time+"");
+             }
+             
+        } this.dispose();
+    }
     private void acceptButtonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_acceptButtonFocusGained
         
     }//GEN-LAST:event_acceptButtonFocusGained
@@ -291,10 +321,17 @@ public class Presentation extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        timeLabel.setText(time+"");
+        cardController();
+        
+        
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
-   /* public static void main(String args[]) {
+    public static void main(String args[]) {
    
 
         
@@ -303,7 +340,7 @@ public class Presentation extends javax.swing.JFrame {
                 new Presentation().setVisible(true);
             }
         });
-    }*/
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptButton;
