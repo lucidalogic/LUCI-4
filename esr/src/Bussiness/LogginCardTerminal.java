@@ -68,6 +68,7 @@ public class LogginCardTerminal extends CardTerminal{
         // prendo il primo lettore
          terminal = terminals.get(0);
         //System.out.println(terminal);
+         
         return terminal.isCardPresent();//To change body of generated methods, choose Tools | Templates.
     }
 
@@ -90,22 +91,7 @@ public class LogginCardTerminal extends CardTerminal{
         //System.out.println(sSistemaOperativo);
         return sSistemaOperativo;
     }
-        public boolean getPassword(String[] args) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException{
-        FileInputStream keyfis = new FileInputStream (args [0]);
-        byte [] encKey = new byte [keyfis.available ()];  
-        keyfis.read (encKey);
-
-        keyfis.close ();
-        X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec (encKey);
-        KeyFactory keyFactory = KeyFactory.getInstance ("DSA", "SUN");
-        PublicKey pubKey = keyFactory.generatePublic (pubKeySpec);
-        
-        
-        return false;
-    
-        
-    }
-  
+      
 }
     
 

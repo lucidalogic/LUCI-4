@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -26,6 +27,7 @@ import javax.swing.filechooser.FileSystemView;
 import jdk.nashorn.internal.parser.TokenType;
 import java.util.Observable;
 import java.lang.Runnable;
+import javax.smartcardio.CardException;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.Timer;
@@ -36,10 +38,10 @@ import javax.swing.Timer;
 public class Presentation extends javax.swing.JFrame {
     
     public int tries=1;
-    public int time=1000;
-     private Runnable Runnable;
+    public int time=30;
+    private Runnable Runnable;
     Thread card = new Thread(Runnable);
-   boolean flag= true;
+    boolean flag= false;
     /**
      * Creates new form Propuesta3
      */
@@ -93,8 +95,8 @@ public class Presentation extends javax.swing.JFrame {
         // Move the window
         this.setLocation(x, y);
         // ------------------------------------------------------------------------------
-        
-                        
+        thread1.start();
+        //thread2.start();            
     }
       
     /**
@@ -244,16 +246,17 @@ public class Presentation extends javax.swing.JFrame {
  
     }//GEN-LAST:event_acceptButtonActionPerformed
     
-    private void cardController (){
-         final JOptionPane optionPane = new JOptionPane("Por favor, inserte su firma digital", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
-        final JDialog dialog = new JDialog();
-        dialog.setTitle("Tarjeta Requerida");
-        dialog.setModal(true);
-        dialog.setContentPane(optionPane);
-        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-        dialog.pack();
-        while (time <10000){
-            
+    Thread thread2 = new Thread(){
+    public void run (){
+        final JOptionPane optionPane = new JOptionPane("Por favor, inserte su firma digital", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+            final JDialog dialog = new JDialog();
+            dialog.setTitle("Tarjeta Requerida");
+            dialog.setModal(true);
+            dialog.setContentPane(optionPane);
+            //dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            dialog.pack();
+       // while (time >0){
+            System.out.println(time);
              try {
                 // LetturaSmartCard lectura = new LetturaSmartCard();
                 LogginCardTerminal prueba = new LogginCardTerminal();
@@ -262,42 +265,31 @@ public class Presentation extends javax.swing.JFrame {
                      System.out.println("nombre: "+ prueba.getName());
                      
                      System.out.println("");
+                     flag=false;
                      dialog.dispose();
-                     break;
-                 }
-                 else{
-                 //lectura.main(args);
                      
-                 LogginCardTerminal sistema = new LogginCardTerminal();
-                 System.out.println("S.O: "+sistema.getOperativeSystem());
-                 System.out.println("Esperando...");   
-                 Thread.sleep(1000);
                  }
-                 
-             } catch (Exception e) {
-                 LogginCardTerminal sistema = new LogginCardTerminal();
-                 System.out.println("S.O: "+sistema.getOperativeSystem());
-                 System.out.println("Esperando...");
-                // try {
-                     //Thread.sleep(2000);
-                     // JOptionPane.NO_OPTION()
-                     // break;
                 
-
-                    
-                        if (flag==true){
-                            dialog.setVisible(true);
-                            
-                        }else{
-                            dialog.dispose();
-                        }
-
-             time+=1000;
-             timeLabel.setText(time+"");
-             }
-             
-        } this.dispose();
-    }
+                 
+            }catch (Exception e) {
+                dialog.setVisible(true);
+                try {
+                    Thread.sleep(0);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Presentation.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dialog.setVisible(flag);
+                    }
+                }).start();
+                LogginCardTerminal sistema = new LogginCardTerminal();
+                System.out.println("S.O: "+sistema.getOperativeSystem());
+                System.out.println("Esperando catch...");
+                }
+    }  
+    };
     private void acceptButtonFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_acceptButtonFocusGained
         
     }//GEN-LAST:event_acceptButtonFocusGained
@@ -316,16 +308,51 @@ public class Presentation extends javax.swing.JFrame {
         // TODO add your handling code here:
         this .dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
+    
+    public void checkMessage(){
+        cancelButton.setEnabled(flag);
+        acceptButton.setEnabled(flag);
+        System.out.println("check message");
+    }
+    
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
-
+        Thread thread1 = new Thread(){
+            public void run(){
+                LogginCardTerminal prueba = new LogginCardTerminal();
+                while (time>0){
+                    timeLabel.setText(time+"");
+                    time--;
+                    try {
+                        if (prueba.isCardPresent()){
+                            //System.out.println("nombre: "+ prueba.getName());
+                            //System.out.println("");
+                            flag=true;
+                            
+                            
+                        }
+                    } catch (CardException ex) {
+                        //Logger.getLogger(Presentation.class.getName()).log(Level.SEVERE, null, ex);
+                        checkMessage();
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Presentation.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("time: "+time);
+                    if (time==0){
+                        thread1.interrupt();
+                        
+                    }
+                }
+            }
+        };
+             
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        timeLabel.setText(time+"");
-        cardController();
-        
-        
+        //JOptionPane.showMessageDialog(null, "El tiempo caduco");
+        System.out.println(time);
     }//GEN-LAST:event_formWindowActivated
 
     /**
