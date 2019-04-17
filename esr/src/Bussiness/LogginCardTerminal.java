@@ -63,12 +63,12 @@ public class LogginCardTerminal extends CardTerminal{
         //System.out.println("entre");
         List<CardTerminal> terminals = factory.terminals().list();
         
-        System.out.println("Smart card reader list: " + terminals);
+        
 
         // prendo il primo lettore
          terminal = terminals.get(0);
         //System.out.println(terminal);
-         
+         //System.out.println("Present? : " + terminal.isCardPresent());
         return terminal.isCardPresent();//To change body of generated methods, choose Tools | Templates.
     }
 

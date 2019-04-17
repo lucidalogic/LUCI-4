@@ -256,7 +256,7 @@ public class Presentation extends javax.swing.JFrame {
             //dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
             dialog.pack();
        // while (time >0){
-            System.out.println(time);
+            //System.out.println(time);
              try {
                 // LetturaSmartCard lectura = new LetturaSmartCard();
                 LogginCardTerminal prueba = new LogginCardTerminal();
@@ -312,7 +312,7 @@ public class Presentation extends javax.swing.JFrame {
     public void checkMessage(){
         cancelButton.setEnabled(flag);
         acceptButton.setEnabled(flag);
-        System.out.println("check message");
+        //System.out.println("check message");
     }
     
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
@@ -325,11 +325,14 @@ public class Presentation extends javax.swing.JFrame {
                     timeLabel.setText(time+"");
                     time--;
                     try {
+                        //System.out.println("Smart card reader list: " + prueba.isCardPresent());
                         if (prueba.isCardPresent()){
                             //System.out.println("nombre: "+ prueba.getName());
                             //System.out.println("");
                             flag=true;
-                            
+                            checkMessage();
+                           // cancelButton.setEnabled(flag);
+                           // acceptButton.setEnabled(flag);
                             
                         }
                     } catch (CardException ex) {
@@ -341,7 +344,7 @@ public class Presentation extends javax.swing.JFrame {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Presentation.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    System.out.println("time: "+time);
+                    //System.out.println("time: "+time);
                     if (time==0){
                         thread1.interrupt();
                         
